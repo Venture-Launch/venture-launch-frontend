@@ -54,10 +54,8 @@ export const useAuth = () => {
   };
 
   const signOut = async (options?: ActionCreatorOptions) => {
-    localStorage.removeItem('walletName');
-    sessionStorage.removeItem('wallet');
-    await wallet.disconnect();
     dispatch(logout(options));
+    await wallet.disconnect();
   };
 
   return { authenticatedUser, signIn, signUp, signOut, fetchLatestAuthInfo };

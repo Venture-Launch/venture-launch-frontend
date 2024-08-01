@@ -166,6 +166,9 @@ export const logout = (options?: ActionCreatorOptions) => async (dispatch: AppDi
   try {
     const response = await axios.post(`auth/logout`, {});
 
+    localStorage.removeItem('walletName');
+    sessionStorage.removeItem('wallet');
+
     if (response.status === HttpStatusCode.Created) {
       options?.onSuccess?.(response.data);
       return dispatch(authSlice.actions.unsetAuthenticatedUser());

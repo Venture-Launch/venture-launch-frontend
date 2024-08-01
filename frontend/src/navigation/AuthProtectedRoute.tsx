@@ -18,13 +18,17 @@ const AuthProtectedRoute: FC<AuthProtectedRouteProps> = ({
     fetchLatestAuthInfo({
       onSuccess: async user => {
         if (!user || !roles?.find(role => user.role.includes(role))) {
-          await signOut();
-          location.replace(AppRoutes.SignIn);
+          signOut({ 
+            onSuccess: () => location.replace(AppRoutes.SignIn), 
+            onError: () => location.replace(AppRoutes.SignIn)
+          });
         }
       },
       onError: async () => {
-        await signOut();
-        location.replace(AppRoutes.SignIn);
+        signOut({ 
+          onSuccess: () => location.replace(AppRoutes.SignIn), 
+          onError: () => location.replace(AppRoutes.SignIn)
+        });
       },
     });
   }, [pathname]);
