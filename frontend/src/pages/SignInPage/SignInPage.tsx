@@ -16,7 +16,7 @@ export interface SignInFormState {
     email: string;
     password: string;
   };
-  error?: string;
+  error?: string; 
   isLoaded: boolean;
   isLoggedIn: boolean;
 }
@@ -32,7 +32,7 @@ const initialState: SignInFormState = {
 
 const SignInPage: FC = () => {
   const [state, setState] = useState(initialState);
-  const { signIn } = useAuth();
+  const { signIn, signOut } = useAuth();
   const wallet = useWallet();
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,15 +78,19 @@ const SignInPage: FC = () => {
 
   useEffect(() => {
     if (!state.isLoaded) {
+      signOut();
       setState({ ...state, isLoaded: true });
     }
   }, [state.isLoaded]);
 
   useEffect(() => {
     if (cookies.get('auth.token')) {
+      const authToken = cookies.get('auth.token') || '';
+      cookies.remove('auth.token', { path: '/', domain: import.meta.env.VITE_COOKIE_DOMAIN_NAME });
+
       jose
         .jwtVerify(
-          cookies.get('auth.token') || '',
+          authToken,
           new TextEncoder().encode(import.meta.env.VITE_JWT_SECRET),
         )
         .then(result => {
@@ -105,7 +109,6 @@ const SignInPage: FC = () => {
             setState({ ...state, error: payload.error });
           }
         });
-      cookies.remove('auth.token');
     }
   }, []);
 
@@ -228,7 +231,7 @@ const SignInPage: FC = () => {
         </div>
       </div>
       <div className='md:left-20 bottom-20 absolute w-full md:w-auto inline-flex justify-center'>
-        <img src='/solana-foundation-logo.png' className='w-72' />
+        <img src='/solana-black-logo.png' className='w-72' />
       </div>
     </div>
   );

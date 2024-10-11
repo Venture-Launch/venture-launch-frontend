@@ -110,9 +110,12 @@ const SignUpPage: FC = () => {
 
   useEffect(() => {
     if (cookies.get('auth.token')) {
+      const authToken = cookies.get('auth.token') || '';
+      cookies.remove('auth.token', { path: '/', domain: import.meta.env.VITE_COOKIE_DOMAIN_NAME });
+      
       jose
         .jwtVerify(
-          cookies.get('auth.token') || '',
+          authToken,
           new TextEncoder().encode(import.meta.env.VITE_JWT_SECRET),
         )
         .then(result => {
@@ -129,7 +132,6 @@ const SignUpPage: FC = () => {
             });
           }
         });
-      cookies.remove('auth.token');
     }
   }, []);
 
@@ -300,7 +302,7 @@ const SignUpPage: FC = () => {
             </Link>
           </span>
         </form>
-        <img src='/solana-foundation-logo.png' className='w-40 mt-10' />
+        <img src='/solana-black-logo.png' className='w-40 mt-10' />
       </div>
     </div>
   );

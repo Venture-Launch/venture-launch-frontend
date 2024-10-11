@@ -15,6 +15,7 @@ services:
         VITE_TOKEN_METADATA_PROGRAM_ID: ${VITE_TOKEN_METADATA_PROGRAM_ID}
         VITE_JWT_SECRET: ${VITE_JWT_SECRET}
         VITE_NGINX_PORT: ${VITE_NGINX_PORT}
+        VITE_COOKIE_DOMAIN_NAME: ${VITE_COOKIE_DOMAIN_NAME}
     container_name: venture-launch-frontend
     networks:
       - venture-launch-network
